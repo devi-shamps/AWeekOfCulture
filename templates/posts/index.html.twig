@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Posts index{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Posts index</h1>
+        {% set i = 0 %}
+        {% for post in posts %}
+            {% if i == 0 %}
+                <div class="row mb-4">
+            {% endif %}
+            <div class="col-lg-4 col-12">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ vich_uploader_asset(post) }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.dateTimeModif ? post.dateTimeModif|date('Y-m-d H:i:s') : '' }}</p>
+                        <p class="card-text">{{ post.text }}</p>
+                        <a href="{{ path('app_post_show', {'id': post.id}) }}" class="btn btn-primary">Show</a>
+                        <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-primary">Edit</a>
+                    </div>
+                </div>
+            </div>
+            {% if i == 2 %}
+                </div>
+                {% set i = -1 %}
+            {% endif %}
+            {% set i = i + 1 %}
+        {% endfor %}
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Text</th>
+                <th>DateTimeModif</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+            <tr>
+                <td>{{ post.id }}</td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.text }}</td>
+                <td>{{ post.dateTimeModif ? post.dateTimeModif|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_posts_show', {'id': post.id}) }}">show</a>
+                    <a href="{{ path('app_posts_edit', {'id': post.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_posts_new') }}">Create new</a>
+{% endblock %}
