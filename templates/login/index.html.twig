@@ -5,15 +5,19 @@
 {% block body %}
     <div class="container">
         <form action="{{ path('app_login') }}" method="post">
-            <label for="email">email:</label>
-            <input type="text" id="username" name="_username" value="{{ last_username }}">
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="_password">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" name="_username" value="{{ last_username }}" id="username" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="_password" placeholder="Password">
+            </div>
 
             <input type="hidden" name="_target_path" value="/accueil">
+            <button type="submit" class="btn btn-primary">Se Connecter</button>
 
-            <button type="submit">login</button>
+            <span class="psw"><a href="/reset-password">Mot de passe oublié ?</a></span>
             {% if error %}
                 <div style="color: red">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}

@@ -17,8 +17,8 @@
                         <h5 class="card-title">{{ post.title }}</h5>
                         <p class="card-text">{{ post.dateTimeModif ? post.dateTimeModif|date('Y-m-d H:i:s') : '' }}</p>
                         <p class="card-text">{{ post.text }}</p>
-                        <a href="{{ path('app_post_show', {'id': post.id}) }}" class="btn btn-primary">Show</a>
-                        <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-primary">Edit</a>
+                        <a href="{{ path('app_posts_show', {'id': post.id}) }}" class="btn btn-primary">Show</a>
+                        <a href="{{ path('app_posts_show', {'id': post.id}) }}" class="btn btn-primary">Edit</a>
                     </div>
                 </div>
             </div>
