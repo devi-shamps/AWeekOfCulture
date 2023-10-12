@@ -13,7 +13,8 @@ class AccueilController extends AbstractController
     #[Route('/accueil', name: 'app_accueil')]
     public function index(Request $request): Response
     {
-
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         return $this->render('accueil/index.html.twig', [
             'controller_name' => 'AccueilController',
         ]);
