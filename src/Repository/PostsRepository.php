@@ -21,6 +21,28 @@ class PostsRepository extends ServiceEntityRepository
         parent::__construct($registry, Posts::class);
     }
 
+    public function searchByUser($term)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.user', 'u')
+            ->where('u.name LIKE :term')
+            ->setParameter('term', '%'.$term.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByUserAndWeek($user, $startOfWeek, $endOfWeek)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.user = :user')
+            ->setParameter('user', $user)
+            ->andWhere('p.dateTimeModif BETWEEN :startOfWeek AND :endOfWeek')
+            ->setParameter('startOfWeek', $startOfWeek)
+            ->setParameter('endOfWeek', $endOfWeek)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Posts[] Returns an array of Posts objects
 //     */

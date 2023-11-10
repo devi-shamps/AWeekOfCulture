@@ -3,6 +3,23 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
 app_logout:
     path: /logout
     methods: GET
+recherche_posts:
+    path: /recherche
+    controller: App\Controller\PostsController::search
+
+like_post:
+    path: /like/{id}
+    controller: App\Controller\PostsController::likePost
+
+user_profile:
+    path: /profile/{username}/
+    controller: App\Controller\UserController::profile
+
+profile_view:
+    path: /profile/{pseudo}/
+    controller: App\Controller\UserController::profile
+

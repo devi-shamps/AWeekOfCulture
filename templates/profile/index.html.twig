@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ user.pseudo |capitalize}} • Photo et Vidéo{% endblock %}
+
+{% block body %}
+<div class="container pt-3 ">
+    <div class="row pb-5">
+        <div class="form-group col-2 pt-2">
+            <img src="{{ vich_uploader_asset(user) }}" alt="S" width="150" height="150" class="rounded-circle me-2">
+        </div>
+        <div class="form-group col-6 pt-4" style="font-family: 'Roboto', sans-serif; font-size: 20px">
+            <div class="row">
+                <div class="col-2">{{ user.pseudo }}</div>
+                <a href="" class="btn btn-light ms-2 col-3" style="height: fit-content">Modifier le profil</a>
+                <a href="" class="btn btn-light ms-2 col-3" style="height: fit-content">Voir les archives</a>
+                 <div class="col-1" style="display: flex; align-items: center;"><span class="material-symbols-outlined" STYLE="margin-bottom: 2px">settings</span></div>
+            </div>
+            <div class="row pt-3">
+                <p style="font-size: 15px" class="col-2"><stong>{{ user.posts.count }}</stong> publication</p>
+                <p style="font-size: 15px" class="col-2"><stong>0</stong> followers</p>
+                <p style="font-size: 15px" class="col-2"><stong>0</stong> suivi(e)s</p>
+            </div>
+        </div>
+    </div>
+    <hr style="width: 90%">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <a href="/profile/{{ user.pseudo }}/" class="nav-link active">Publications</a>
+            </div>
+            <div class="col">
+                <a href="/profile/{{ user.pseudo }}/saved/" class="nav-link">Enregistrements</a>
+            </div>
+            <div class="col">
+                <a href="/{{ app.user.name }}/tagged/" class="nav-link">Identifié(e)</a>
+            </div>
+        </div>
+    </div>
+    <div class="pt-5" id="user-posts-container">
+        {% set i = 0 %}
+        {% for post in user.posts %}
+            {% if i == 0 %}
+                <div class="row mb-4">
+            {% endif %}
+            <div class="col-lg-5 col-12 card-wrapper card overflow-hidden shadow rounded-4 border-0 mb-5">
+                <div class="card-body" style="width: 30rem;">
+                    <img src="{{ vich_uploader_asset(post) }}" alt="" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">Créer le {{ post.dateTimeModif ? post.dateTimeModif|date('Y-m-d H:i:s') : '' }}</p>
+                        <p class="card-text">{{ post.text }}</p>
+                        <a href="{{ path('app_posts_show', {'id': post.id}) }}" class="btn btn-primary">Voir le post</a>
+                        {% if app.user == post.user %}
+                            <a href="{{ path('app_posts_show', {'id': post.id}) }}" class="btn btn-primary">Edit</a>
+                        {% endif %}
+                        <a href="{{ path('like_post', {'id': post.id}) }}" class="d-flex align-items-center " style="text-decoration: none; color: red; font-size: 20px">
+                            {% if post.isLikedByUser(app.user) %}
+                                <i class="fa-solid fa-heart"></i>
+                            {% else %}
+                                <i class="fa-regular fa-heart"></i>
+                            {% endif %}
+                        </a>
+                        <p style="font-weight: bolder;">{{ post.numberOfLike }} J'aime</p>
+                    </div>
+                </div>
+            </div>
+            {% if i == 3 %}
+                </div>
+                {% set i = -1 %}
+            {% endif %}
+            {% set i = i + 1 %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -14,8 +14,6 @@ class CreateUserController extends AbstractController
     #[Route('/create/user', name: 'app_create_user')]
     public function index(ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher): Response
     {
-        $lesUser = $doctrine->getRepository(User::class)->findAll();
-
         //Creation du Login de l'utilisateur
         $theUser = new User();
         $theUser->setEmail('dimitri.dechamp@lycee-faure.fr');

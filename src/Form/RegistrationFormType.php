@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Unique;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -21,7 +23,27 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
+            ->add('pseudo', TextType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez entrer un pseudo',
+                    ]),
+                    new Length([
+                        'min' => 3,
+                        'minMessage' => 'Le pseudo doit avoir au moins {{ limit }} caractères',
+                        'max' => 255,
+                    ]),
+                ],
+            ])
             ->add('email', EmailType::class)
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'allow_delete' => true,
+                'label' => 'Photo de Profile',
+                'download_uri' => true,
+                'image_uri' => true,
+                'asset_helper' => true,
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
